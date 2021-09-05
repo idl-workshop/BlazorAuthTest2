@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using IDL.Core;
+using IDL.Core.Data;
+using IDL.Core.Api;
 
 namespace BlazorAuthTest2.Pages
 {
@@ -28,29 +31,51 @@ namespace BlazorAuthTest2.Pages
         // https://app.pluralsight.com/course-player?clipId=a8e78c0f-b40b-40f8-b13c-26528b6c3d7e
         public async Task<IActionResult> OnPostAsync()
         {
-            
-            if(!(Username == "test" && Password == "test"))
+
+            // Authenticate
+            IDL.Core.Data.User user;
+
+            // BUG: handle async exception
+            try
+            {
+                user = await AuthService.LoginUserAsync(Username, Password, "IDLM");
+
+                var claims = new List<Claim>();
+
+                // User info
+                if (!string.IsNullOrWhiteSpace(user.username)) // username (unique)
+                    claims.Add (new Claim(ClaimTypes.Name, user.username));
+                if (!string.IsNullOrWhiteSpace(user.email))
+                    claims.Add (new Claim(ClaimTypes.Email, user.email));
+                if (!string.IsNullOrWhiteSpace(user.name))
+                    claims.Add (new Claim(ClaimTypes.GivenName, user.name));
+
+                // Roles
+
+                var claimsIdentity = new ClaimsIdentity(
+                    claims,
+                    CookieAuthenticationDefaults.AuthenticationScheme
+                    );
+
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity)
+                    );
+
+                return LocalRedirect(Url.Content("~/"));
+            }
+            catch (Exception ex)
             {
                 // Fail handler
                 return Page();
             }
 
-            var claims = new List<Claim>
+            if (user == null)
             {
-                new Claim(ClaimTypes.Name, "Michael Wells"),
-                new Claim(ClaimTypes.Email, "mike@sygnal.com")
-            };
+                // Fail handler
+                return Page();
+            }
 
-            var claimsIdentity = new ClaimsIdentity(
-                claims,
-                CookieAuthenticationDefaults.AuthenticationScheme);
-            
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity)
-                );
-
-            return LocalRedirect(Url.Content("~/"));
         }
 
     }
