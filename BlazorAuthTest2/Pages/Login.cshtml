@@ -1,0 +1,25 @@
+﻿@page
+@model BlazorAuthTest2.Pages.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Login</h1>
+
+<form id="account" method="post">
+
+    <div>
+        <label asp-for="Username"></label>
+        <input asp-for="Username" />
+    </div>
+
+    <div>
+        <label asp-for="Password"></label>
+        <input asp-for="Password" />
+    </div>
+
+    <div>
+        <button type="submit">Log in</button>
+    </div>
+
+</form>

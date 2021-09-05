@@ -4,6 +4,7 @@
 @{
     Layout = null;
 }
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +18,19 @@
     <link href="BlazorAuthTest2.styles.css" rel="stylesheet" />
 </head>
 <body>
-    <component type="typeof(App)" render-mode="ServerPrerendered" />
+
+    @{
+        // Xsrf anti-forgery token
+        // https://app.pluralsight.com/course-player?clipId=a95e47f6-2661-4e6d-8c36-0c65c07040f3
+        var initialTokenState = new Services.InitialApplicationState
+        {
+            XsrfToken = Xsrf.GetAndStoreTokens(HttpContext).RequestToken
+        };
+    }
+
+    <component type="typeof(App)" render-mode="ServerPrerendered" 
+        param-InitialState="initialTokenState"
+        />
 
     <div id="blazor-error-ui">
         <environment include="Staging,Production">
