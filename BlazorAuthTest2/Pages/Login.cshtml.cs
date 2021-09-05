@@ -50,7 +50,13 @@ namespace BlazorAuthTest2.Pages
                 if (!string.IsNullOrWhiteSpace(user.name))
                     claims.Add (new Claim(ClaimTypes.GivenName, user.name));
 
-                // Roles
+                // Role
+                claims.Add(new Claim(ClaimTypes.Role, Util.UserTypeToMoniker(user.userType, false)));
+                //claims.Add(new Claim(ClaimTypes.Role, Util.UserTypeToMoniker(UserType.Author, false)));
+                //claims.Add(new Claim(ClaimTypes.Role, Util.UserTypeToMoniker(UserType.School_Admin, false)));
+                //claims.Add(new Claim(ClaimTypes.Role, Util.UserTypeToMoniker(UserType.Student, false)));
+                //claims.Add(new Claim(ClaimTypes.Role, Util.UserTypeToMoniker(UserType.System_Admin, false)));
+                //claims.Add(new Claim(ClaimTypes.Role, Util.UserTypeToMoniker(UserType.Teacher, false)));
 
                 var claimsIdentity = new ClaimsIdentity(
                     claims,

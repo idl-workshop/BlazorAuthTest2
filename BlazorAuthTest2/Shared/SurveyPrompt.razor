@@ -1,13 +1,57 @@
-﻿<div class="alert alert-secondary mt-4" role="alert">
-    <span class="oi oi-pencil mr-2" aria-hidden="true"></span>
-    <strong>@Title</strong>
+﻿<AuthorizeView Roles="System_Admin">
+    <Authorized>
 
-    <span class="text-nowrap">
-        Please take our
-        <a target="_blank" class="font-weight-bold" href="https://go.microsoft.com/fwlink/?linkid=2137813">brief survey</a>
-    </span>
-    and tell us what you think.
-</div>
+        <div class="alert alert-secondary mt-4" role="alert">
+            <span class="oi oi-pencil mr-2" aria-hidden="true"></span>
+            <strong>Welcome SysAdmin</strong>
+        </div>
+
+    </Authorized>
+</AuthorizeView>
+
+<AuthorizeView Roles="School_Admin">
+    <Authorized>
+
+        <div class="alert alert-secondary mt-4" role="alert">
+            <span class="oi oi-pencil mr-2" aria-hidden="true"></span>
+            <strong>Welcome School Admin</strong>
+        </div>
+
+    </Authorized>
+</AuthorizeView>
+
+<AuthorizeView Roles="Teacher">
+    <Authorized>
+
+        <div class="alert alert-secondary mt-4" role="alert">
+            <span class="oi oi-pencil mr-2" aria-hidden="true"></span>
+            <strong>Welcome Teacher</strong>
+        </div>
+
+    </Authorized>
+</AuthorizeView>
+
+<AuthorizeView Roles="Student">
+    <Authorized>
+
+        <div class="alert alert-secondary mt-4" role="alert">
+            <span class="oi oi-pencil mr-2" aria-hidden="true"></span>
+            <strong>Welcome Student</strong>
+        </div>
+
+    </Authorized>
+</AuthorizeView>
+
+<AuthorizeView Roles="Author">
+    <Authorized>
+
+        <div class="alert alert-secondary mt-4" role="alert">
+            <span class="oi oi-pencil mr-2" aria-hidden="true"></span>
+            <strong>Welcome Author</strong>
+        </div>
+
+    </Authorized>
+</AuthorizeView>
 
 @code {
     // Demonstrates how a parent component can supply parameters
