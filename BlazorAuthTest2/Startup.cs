@@ -31,8 +31,20 @@ namespace BlazorAuthTest2
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
 
+
+            // https://stackoverflow.com/questions/55846770/asp-net-core-identity-does-not-redirect-to-correct-logon-pages
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie();
+                .AddCookie(options => {
+                    options.LoginPath = $"/logon";
+                    options.LogoutPath = $"/logoff";
+                    options.AccessDeniedPath = $"/login";
+                    options.Events.OnRedirectToAccessDenied = context =>
+                    {
+//                        context.Response.StatusCode = 403;
+                        context.RedirectUri = "/login";
+                        return Task.CompletedTask;
+                    };
+                });
 
             // Add our custom Xsrf token provider
             // https://app.pluralsight.com/course-player?clipId=a95e47f6-2661-4e6d-8c36-0c65c07040f3

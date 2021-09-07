@@ -71,6 +71,10 @@ namespace BlazorAuthTest2.Pages
                 await HttpContext.SignInAsync(
                     CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimsIdentity)
+
+                    // Following param suggested here, but didn't help 
+                    // https://stackoverflow.com/questions/55846770/asp-net-core-identity-does-not-redirect-to-correct-logon-pages
+//                    new AuthenticationProperties()
                     );
 
                 return LocalRedirect(Url.Content("~/"));
