@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using IDL.Core;
 using IDL.Core.Data;
-using IDL.Core.Api;
 
 namespace BlazorAuthTest2.Pages
 {
@@ -38,7 +37,18 @@ namespace BlazorAuthTest2.Pages
             // BUG: handle async exception
             try
             {
-                user = await AuthService.LoginUserAsync(Username, Password, "IDLM");
+
+                // Authenticate user login
+                // HACK: for proof-of-concept testing
+                // will call API
+                if (!(Username == "test" && Password == "test"))
+                    return Page();
+
+                // HACK: Create test user as successful auth response object from API
+                user = new User();
+                user.username = "test";
+                user.email = "test@foo.com";
+                user.name = "Test User";
 
                 var claims = new List<Claim>();
 
@@ -52,11 +62,6 @@ namespace BlazorAuthTest2.Pages
 
                 // Role
                 claims.Add(new Claim(ClaimTypes.Role, Util.UserTypeToMoniker(user.userType, false)));
-                //claims.Add(new Claim(ClaimTypes.Role, Util.UserTypeToMoniker(UserType.Author, false)));
-                //claims.Add(new Claim(ClaimTypes.Role, Util.UserTypeToMoniker(UserType.School_Admin, false)));
-                //claims.Add(new Claim(ClaimTypes.Role, Util.UserTypeToMoniker(UserType.Student, false)));
-                //claims.Add(new Claim(ClaimTypes.Role, Util.UserTypeToMoniker(UserType.System_Admin, false)));
-                //claims.Add(new Claim(ClaimTypes.Role, Util.UserTypeToMoniker(UserType.Teacher, false)));
 
                 var claimsIdentity = new ClaimsIdentity(
                     claims,

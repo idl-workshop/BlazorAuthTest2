@@ -14,9 +14,6 @@
     <Reference Include="IDL.Core">
       <HintPath>..\..\..\Projects\IDL.Core\IDL.Core.Api\bin\Debug\net5.0\IDL.Core.dll</HintPath>
     </Reference>
-    <Reference Include="IDL.Core.Api">
-      <HintPath>..\..\..\Projects\IDL.Core\IDL.Core.Api\bin\Debug\net5.0\IDL.Core.Api.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
